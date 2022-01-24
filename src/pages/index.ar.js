@@ -24,8 +24,8 @@ const IndexPage = ({data}) => (
 export default IndexPage
 
 export const pageQuery = graphql`
-  query getEnglishText {
-    allWpPost(filter: {language: {code: {eq: EN}}}) {
+  query getArabicText {
+    allWpPost(filter: {language: {code: {eq: AR}}}) {
       nodes {
         id
         title

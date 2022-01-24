@@ -5,12 +5,29 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import * as React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, navigate } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+
+const getRedirectLanguage = () => {
+  if (typeof navigator === 'undefined') {
+    return 'en';
+  }
+
+  const lang = navigator && navigator.language && navigator.language.split('-')[0];
+  if (!lang) return 'en';
+
+  switch (lang) {
+    case 'ar':
+      return 'ar';
+    default:
+      return 'en';
+  }
+};
+
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -21,7 +38,14 @@ const Layout = ({ children }) => {
         }
       }
     }
-  `)
+  `);
+
+  useEffect(() => {
+    const urlLang = getRedirectLanguage();
+
+    if(urlLang != 'en')
+      navigate(`/${urlLang}`);
+  }, []);
 
   return (
     <>
